@@ -30,22 +30,25 @@ class DAL
 
     /** Método de busca auxiliar
      */
-    int _search(const Key &_x);
+    int _search(const Key &key)
+    {
+        for (int i{0}; i < mi_Length; i++)
+        {
+            if (mpt_Data[i].id == key)
+                return i;
+        }
+
+        return -1;
+    }
 
   public:
     /** Construtor default
      */
-    DAL(int _MaxSz = SIZE)
-    {
-        /*empty*/
-    }
+    DAL(int _MaxSz = SIZE);
 
     /** Destrutor
      */
-    virtual ~DAL()
-    {
-        delete[] mpt_Data;
-    }
+    virtual ~DAL();
 
     /** Insere um novo valor associada a uma nova chave no dicionario.
      * 
@@ -114,17 +117,11 @@ class DSAL : private DAL<Key, Data, KeyComparator>
     /** Construtor default
          */
     DSAL(int _MaxSz)
-        : DAL<Key, Data, KeyComparator>(_MaxSz)
-    {
-        /*empty*/
-    }
+        : DAL<Key, Data, KeyComparator>(_MaxSz);
 
     /** Destrutor
          */
-    virtual ~DSAL()
-    {
-        /*empty*/
-    }
+    virtual ~DSAL();
 
     /** Insere um novo valor associada a uma nova chave no dicionario.
      * 
