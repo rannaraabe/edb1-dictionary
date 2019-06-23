@@ -30,16 +30,7 @@ class DAL
 
     /** Método de busca auxiliar
      */
-    int _search(const Key &key)
-    {
-        for (int i{0}; i < mi_Length; i++)
-        {
-            if (mpt_Data[i].id == key)
-                return i;
-        }
-
-        return -1;
-    }
+    int _search(const Key &key);
 
   public:
     /** Construtor default
@@ -73,11 +64,11 @@ class DAL
 
     /** Recupera a maior chave do dicionario
      */
-    Key max() const;
+    Key max(void) const;
 
     /** Recupera a menor chave do dicionario
      */
-    Key min() const;
+    Key min(void) const;
 
     /** Recupera em \chave a chave antecessora a key, se existir retorna true
      * 
@@ -117,11 +108,17 @@ class DSAL : private DAL<Key, Data, KeyComparator>
     /** Construtor default
          */
     DSAL(int _MaxSz)
-        : DAL<Key, Data, KeyComparator>(_MaxSz);
+        : DAL<Key, Data, KeyComparator>(_MaxSz)
+    {
+        /*empty*/
+    }
 
     /** Destrutor
          */
-    virtual ~DSAL();
+    virtual ~DSAL()
+    {
+        /*empty*/
+    }
 
     /** Insere um novo valor associada a uma nova chave no dicionario.
      * 
