@@ -8,6 +8,7 @@
 /** Classe representando um dicionário com armazenamento
  * em um vetor não ordenado.
  */
+template <typename Data>
 class DAL
 {
   protected:
@@ -103,13 +104,17 @@ class DAL
     }
 };
 
-class DSAL : private DAL
+/** Classe representando um dicionário com armazenamento
+ * em um vetor ordenado.
+ */
+template <typename Data>
+class DSAL : private DAL<Data>
 {
   public:
     /** Construtor default
          */
     DSAL(int _MaxSz)
-        : DAL(_MaxSz)
+        : DAL<Data>(_MaxSz)
     {
         /*empty*/
     }
