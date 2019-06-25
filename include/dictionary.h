@@ -4,16 +4,18 @@
  */
 
 #include <iostream>
+#include <string>
+#include <functional>
 
 /** Classe representando um dicionário com armazenamento
  * em um vetor não ordenado.
  */
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator = std::less<int>>
 class DAL
 {
   protected:
-    using Key = int;          //!< Alias para chave
-    using Data = std::string; //!< ALias para o dado
+    // using Key = int;          //!< Alias para chave
+    // using Data = std::string; //!< ALias para o dado
 
     /** Estrutura do nó, representando o par chave-informaçao
      */
@@ -21,6 +23,11 @@ class DAL
     {
         Key id;    //!< A chave eh um inteiro simples
         Data info; //!< A informacao eh uma cadeia de caracteres
+
+        NodeAL(Key _id = Key(), Data _info = Data())
+            : id(_id), info(_info){
+                           /*empty*/
+                       };
     };
 
     static const int SIZE = 50; //!< Tamanho default da lista
@@ -46,7 +53,7 @@ class DAL
      * @param new_k - chave a qual o valor será associado
      * @param new_d - valor que será adicionado no dicionário
      */
-    bool insert(const Key &new_k, Data &new_d);
+    bool insert(const Key &new_k, const Data &new_d);
 
     /** Deleta um valor associada a uma chave no dicionario.
      * 
@@ -54,6 +61,12 @@ class DAL
      * @param d - valor que será adicionado no dicionário
      */
     bool remove(const Key &k, Data &d);
+
+    /** Reserva \sz elementos
+     * 
+     * @param sz - quantidade necessaria
+     */ 
+    bool reserve(size_t sz);
 
     /** Busca um valor associada a uma chave no dicionario.
      * 
@@ -82,7 +95,7 @@ class DAL
      * @param key - 
      * @param chave -
      */
-    bool sucessor(const Key &key, Key &chave) const;
+    bool successor(const Key &key, Key &chave) const;
 
     /** Envia de volta para o fluxo de saída uma representação ascii para a lista
      */
@@ -101,13 +114,16 @@ class DAL
 /** Classe representando um dicionário com armazenamento
  * em um vetor ordenado.
  */
-template <typename Key, typename Data, typename KeyComparator>
-class DSAL : private DAL<Key, Data, KeyComparator>
+template <class Key, class Data, class KeyComparator = std::less<int>>
+class DSAL : public DAL<Key, Data, KeyComparator>
 {
+    using NodeAL = typename DAL<Key, Data, KeyComparator>::NodeAL;
+
   public:
+    
     /** Construtor default
          */
-    DSAL(int _MaxSz)
+    DSAL(int _MaxSz = DAL<Key, Data, KeyComparator>::SIZE)
         : DAL<Key, Data, KeyComparator>(_MaxSz)
     {
         /*empty*/
@@ -125,7 +141,7 @@ class DSAL : private DAL<Key, Data, KeyComparator>
      * @param new_k - chave a qual o valor será associado
      * @param new_d - valor que será adicionado no dicionário
      */
-    bool insert(const Key &new_k, Data &new_d);
+    bool insert(const Key &new_k, const Data &new_d);
 
     /** Deleta um valor associada a uma chave no dicionario.
      * 
@@ -161,10 +177,9 @@ class DSAL : private DAL<Key, Data, KeyComparator>
      * @param key - 
      * @param chave -
      */
-    bool sucessor(const Key &key, Key &chave) const;
+    bool successor(const Key &key, Key &chave) const;
 
-  private:
     /** Método de busca auxiliar
      */
-    int _search(const Key *key) const;
+    int _search(const Key &key) const;
 };

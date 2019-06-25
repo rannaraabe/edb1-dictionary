@@ -3,12 +3,10 @@
  * @author Ranna Raabe
  */
 
-#include <iostream>
-
 #include "../include/dictionary.h"
 
 /// Método de busca auxiliar
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 int DAL<Key, Data, KeyComparator>::_search(const Key &key)
 {
     for (int i{0}; i < mi_Length; i++)
@@ -21,7 +19,7 @@ int DAL<Key, Data, KeyComparator>::_search(const Key &key)
 }
 
 /// Construtor default
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 DAL<Key, Data, KeyComparator>::DAL(int _MaxSz)
 {
     mi_Capacity = _MaxSz;
@@ -30,37 +28,41 @@ DAL<Key, Data, KeyComparator>::DAL(int _MaxSz)
 }
 
 /// Destrutor
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 DAL<Key, Data, KeyComparator>::~DAL()
 {
     delete[] mpt_Data;
 }
 
 /// Insere um novo valor associada a uma nova chave no dicionario
-template <typename Key, typename Data, typename KeyComparator>
-bool DAL<Key, Data, KeyComparator>::insert(const Key &new_k, Data &new_d)
+template <class Key, class Data, class KeyComparator>
+bool DAL<Key, Data, KeyComparator>::insert(const Key &new_k, const Data &new_d)
 {
     // Confere se na lista já existe essa chave
     if (not(_search(new_k) == -1))
         return false;
 
     // Confere se a lista está cheia
-    if (full())
+    if (!(mi_Length < mi_Capacity))
         // Solicita mais espaço no vetor para adicionar o novo valor
-        reserve(mi_Capacity * 2);
+        reserve(mi_Length * 2);
 
     NodeAL node(new_k, new_d);    // Cria um nó com o par de dados do que será inserido
     mpt_Data[mi_Length++] = node; // Adicionando o valor
+
+    // this->mpt_Data[mi_Lenght].id = new_k;
+    // this->mpt_Data[mi_Lenght].info = new_d;
+    // mi_Lenght++;
 
     return true;
 }
 
 /// Deleta um valor associada a uma chave no dicionario
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 bool DAL<Key, Data, KeyComparator>::remove(const Key &k, Data &d)
 {
     // Confere se a lista está vazia
-    if (empty())
+    if (mi_Capacity == 0)
         return false;
     else
     {
@@ -80,8 +82,27 @@ bool DAL<Key, Data, KeyComparator>::remove(const Key &k, Data &d)
     }
 }
 
+// Reserva \sz elementos
+template <class Key, class Data, class KeyComparator>
+bool DAL<Key, Data, KeyComparator>::reserve(size_t sz)
+{
+    NodeAL *node = new NodeAL[sz];
+
+    for (int i = 0; i < mi_Capacity; i++)
+    {
+        node[i].id = this->mpt_Data[i].id;
+        node[i].info = this->mpt_Data[i].info;
+    }
+
+    delete[] mpt_Data;
+    this->mpt_Data = node;
+
+    this->mi_Capacity = sz;
+    return true;
+}
+
 /// Busca um valor associada a uma chave no dicionario
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 bool DAL<Key, Data, KeyComparator>::search(const Key &k, Data &d)
 {
     // Recebe o retorna da busca auxiliar para verificar se existe algum dado com essa chave
@@ -99,11 +120,11 @@ bool DAL<Key, Data, KeyComparator>::search(const Key &k, Data &d)
 }
 
 /// Recupera a maior chave do dicionario
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 Key DAL<Key, Data, KeyComparator>::max(void) const
 {
     // Confere se a lista está vazia
-    if (empty())
+    if (this->mi_Length == 0)
         std::cout << "Dicionario vazio";
     else
     {
@@ -121,11 +142,11 @@ Key DAL<Key, Data, KeyComparator>::max(void) const
 }
 
 /// Recupera a menor chave do dicionario
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 Key DAL<Key, Data, KeyComparator>::min(void) const
 {
     // Confere se a lista está vazia
-    if (empty())
+    if (this->mi_Length == 0)
         std::cout << "Dicionario vazio";
     else
     {
@@ -143,7 +164,7 @@ Key DAL<Key, Data, KeyComparator>::min(void) const
 }
 
 /// Recupera em \chave a chave antecessora a key, se existir retorna true
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 bool DAL<Key, Data, KeyComparator>::predecessor(const Key &key, Key &chave) const
 {
     // Chave de comparacao
@@ -173,8 +194,8 @@ bool DAL<Key, Data, KeyComparator>::predecessor(const Key &key, Key &chave) cons
 }
 
 /// Recupera em \chave a chave sucessora a key, se existir retorna true
-template <typename Key, typename Data, typename KeyComparator>
-bool DAL<Key, Data, KeyComparator>::sucessor(const Key &key, Key &chave) const
+template <class Key, class Data, class KeyComparator>
+bool DAL<Key, Data, KeyComparator>::successor(const Key &key, Key &chave) const
 {
     // Chave de comparacao
     int min = key;

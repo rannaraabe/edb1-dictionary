@@ -3,38 +3,33 @@
  * @author Ranna Raabe
  */
 
-#include <iostream>
-
 #include "../include/dictionary.h"
 
 /// Método de busca auxiliar
-template <typename Key, typename Data, typename KeyComparator>
-int DSAL<Key, Data, KeyComparator>::_search(const Key *key) const
+template <class Key, class Data, class KeyComparator>
+int DSAL<Key, Data, KeyComparator>::_search(const Key &key) const
 {
-    KeyComparator k_comp;                        // Functor
-    auto begin = this->mpt_Data;                 // Inicio da lista
-    auto end = this->mpt_Data + this->mi_Length; // Fim da lista
+    int first = 0;
+	int last = this->mi_Length;
 
-    auto aux = begin; // Auxiliar
-
-    while (begin <= end)
+    while (first != last)
     {
-        auto m_id = begin + ((end - begin) / 2);
+        int m = first + (last - first) / 2;
 
-        if ((k_comp(m_id->id, key) == 0) and (k_comp(key, m_id->id) == 0))
-            return m_id - aux;
-        else if (comp(m_id->id, key))
-            begin = m_id + 1;
+        if (this->mpt_Data[m].id == key)
+            return m;
+        else if (this->mpt_Data[m].id > key)
+            last = m - 1;
         else
-            end = m_id - 1;
+            first = m + 1;
     }
 
     return -1;
 }
 
 /// Insere um novo valor associada a uma nova chave no dicionario
-template <typename Key, typename Data, typename KeyComparator>
-bool DSAL<Key, Data, KeyComparator>::insert(const Key &new_k, Data &new_d)
+template <class Key, class Data, class KeyComparator>
+bool DSAL<Key, Data, KeyComparator>::insert(const Key &new_k, const Data &new_d)
 {
     KeyComparator k_comp; // Functor
     NodeAL *pivot;        // Cria um nó com o par de dados do que será inserido
@@ -72,7 +67,7 @@ bool DSAL<Key, Data, KeyComparator>::insert(const Key &new_k, Data &new_d)
 }
 
 /// Deleta um valor associada a uma chave no dicionario
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 bool DSAL<Key, Data, KeyComparator>::remove(const Key &k, Data &d)
 {
     // Confere se a lista está vazia
@@ -98,7 +93,7 @@ bool DSAL<Key, Data, KeyComparator>::remove(const Key &k, Data &d)
 }
 
 /// Recupera a maior chave do dicionario
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 Key DSAL<Key, Data, KeyComparator>::max() const
 {
     // Confere se a lista está vazia
@@ -109,7 +104,7 @@ Key DSAL<Key, Data, KeyComparator>::max() const
 }
 
 /// Recupera a menor chave do dicionario
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 Key DSAL<Key, Data, KeyComparator>::min() const
 {
     // Confere se a lista está vazia
@@ -118,8 +113,9 @@ Key DSAL<Key, Data, KeyComparator>::min() const
     else
         return this->mpt_Data[0].id; // Retorna a primeira chave, afinal a lista está ordenada
 }
+
 /// Recupera em \chave a chave antecessora a key, se existir retorna true
-template <typename Key, typename Data, typename KeyComparator>
+template <class Key, class Data, class KeyComparator>
 bool DSAL<Key, Data, KeyComparator>::predecessor(const Key &key, Key &chave) const
 {
     // Recebe o retorna da busca auxiliar
@@ -137,8 +133,8 @@ bool DSAL<Key, Data, KeyComparator>::predecessor(const Key &key, Key &chave) con
 }
 
 /// Recupera em \chave a chave sucessora a key, se existir retorna true
-template <typename Key, typename Data, typename KeyComparator>
-bool DSAL<Key, Data, KeyComparator>::sucessor(const Key &key, Key &chave) const
+template <class Key, class Data, class KeyComparator>
+bool DSAL<Key, Data, KeyComparator>::successor(const Key &key, Key &chave) const
 {
     // Recebe o retorna da busca auxiliar
     int i = _search(key);
