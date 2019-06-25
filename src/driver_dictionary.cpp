@@ -10,8 +10,7 @@
 #include <random>
 #include <iterator>
 
-#include "../include/dal.cpp"
-#include "../include/dsal.cpp"
+#include "../include/dictionary.h"
 
 /** Functor MyKeyComparator para estabelecer uma ordem estrita entre as chaves
  */

@@ -6,7 +6,7 @@
 #include "../include/dictionary.h"
 
 /// Método de busca auxiliar
-template <class Key, class Data, class KeyComparator>
+template <typename Key, typename Data, typename KeyComparator>
 int DSAL<Key, Data, KeyComparator>::_search(const Key &key) const
 {
     int first = 0;
@@ -28,7 +28,7 @@ int DSAL<Key, Data, KeyComparator>::_search(const Key &key) const
 }
 
 /// Insere um novo valor associada a uma nova chave no dicionario
-template <class Key, class Data, class KeyComparator>
+template <typename Key, typename Data, typename KeyComparator>
 bool DSAL<Key, Data, KeyComparator>::insert(const Key &new_k, const Data &new_d)
 {
     KeyComparator k_comp; // Functor
@@ -67,7 +67,7 @@ bool DSAL<Key, Data, KeyComparator>::insert(const Key &new_k, const Data &new_d)
 }
 
 /// Deleta um valor associada a uma chave no dicionario
-template <class Key, class Data, class KeyComparator>
+template <typename Key, typename Data, typename KeyComparator>
 bool DSAL<Key, Data, KeyComparator>::remove(const Key &k, Data &d)
 {
     // Confere se a lista está vazia
@@ -93,7 +93,7 @@ bool DSAL<Key, Data, KeyComparator>::remove(const Key &k, Data &d)
 }
 
 /// Recupera a maior chave do dicionario
-template <class Key, class Data, class KeyComparator>
+template <typename Key, typename Data, typename KeyComparator>
 Key DSAL<Key, Data, KeyComparator>::max() const
 {
     // Confere se a lista está vazia
@@ -104,7 +104,7 @@ Key DSAL<Key, Data, KeyComparator>::max() const
 }
 
 /// Recupera a menor chave do dicionario
-template <class Key, class Data, class KeyComparator>
+template <typename Key, typename Data, typename KeyComparator>
 Key DSAL<Key, Data, KeyComparator>::min() const
 {
     // Confere se a lista está vazia
@@ -115,7 +115,7 @@ Key DSAL<Key, Data, KeyComparator>::min() const
 }
 
 /// Recupera em \chave a chave antecessora a key, se existir retorna true
-template <class Key, class Data, class KeyComparator>
+template <typename Key, typename Data, typename KeyComparator>
 bool DSAL<Key, Data, KeyComparator>::predecessor(const Key &key, Key &chave) const
 {
     // Recebe o retorna da busca auxiliar
@@ -133,7 +133,7 @@ bool DSAL<Key, Data, KeyComparator>::predecessor(const Key &key, Key &chave) con
 }
 
 /// Recupera em \chave a chave sucessora a key, se existir retorna true
-template <class Key, class Data, class KeyComparator>
+template <typename Key, typename Data, typename KeyComparator>
 bool DSAL<Key, Data, KeyComparator>::successor(const Key &key, Key &chave) const
 {
     // Recebe o retorna da busca auxiliar

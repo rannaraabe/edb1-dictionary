@@ -24,8 +24,8 @@ include_directories( include )
 
 # Add test files.
 file(GLOB SOURCES_TEST "src/*.cpp")
-#add_executable(run_tests ${SOURCES_TEST})
-add_executable(run_tests "src/driver_dictionary.cpp" )
+#add_executable(dic ${SOURCES_TEST})
+add_executable(dic "src/driver_dictionary.cpp" )
 
 # Link with the google test libraries.
-target_link_libraries(run_tests PRIVATE ${GTEST_LIBRARIES} PRIVATE pthread )
+target_link_libraries(dic PRIVATE ${GTEST_LIBRARIES} PRIVATE pthread )
