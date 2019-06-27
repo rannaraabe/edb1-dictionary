@@ -169,16 +169,15 @@ class DAL
         Key max = mpt_Data[0].id; // Define o primeiro valor da lista como o max, apenas para comparar depois
 
         // Confere se a lista está vazia
-        if (this->mi_Length == 0)
-            std::cout << "Dicionario vazio";
-        else
+        // if (this->mi_Length == 0)
+        //     throw std::out_of_range("Dicionario vazio");
+
+        for (int i{1}; i < mi_Length; i++) // Começo da segunda posição da lista
         {
-            for (int i{1}; i < mi_Length; i++) // Começo da segunda posição da lista
-            {
-                if (k_comp(max, mpt_Data[i].id)) // Compara a chave definida como max com cada chave da lista
-                    max = mpt_Data[i].id;
-            }
+            if (k_comp(max, mpt_Data[i].id)) // Compara a chave definida como max com cada chave da lista
+                max = mpt_Data[i].id;
         }
+
         return max;
     };
 
@@ -190,16 +189,15 @@ class DAL
         Key min = mpt_Data[0].id; // Define o primeiro valor da lista como o min, apenas para comparar depois
 
         // Confere se a lista está vazia
-        if (this->mi_Length == 0)
-            std::cout << "Dicionario vazio";
-        else
+        // if (this->mi_Length == 0)
+        //     throw std::out_of_range("Dicionario vazio");
+
+        for (int i{1}; i < mi_Length; i++) // Começo da segunda posição da lista
         {
-            for (int i{1}; i < mi_Length; i++) // Começo da segunda posição da lista
-            {
-                if (k_comp(mpt_Data[i].id, min)) // Compara a chave definida como min com cada chave da lista
-                    min = mpt_Data[i].id;
-            }
+            if (k_comp(mpt_Data[i].id, min)) // Compara a chave definida como min com cada chave da lista
+                min = mpt_Data[i].id;
         }
+
         return min;
     };
 
@@ -389,10 +387,10 @@ class DSAL : public DAL<Key, Data, KeyComparator>
         Key aux;
 
         // Confere se a lista está vazia
-        if (this->mi_Length < 1)
-            std::cout << "Dicionario vazio";
-        else
-            aux = this->mpt_Data[this->mi_Length - 1].id; // Retorna a ultima chave, afinal a lista está ordenada
+        // if (this->mi_Length < 1)
+        //     throw std::out_of_range("Dicionario vazio");
+
+        aux = this->mpt_Data[this->mi_Length - 1].id; // Retorna a ultima chave, afinal a lista está ordenada
 
         return aux;
     };
@@ -404,10 +402,10 @@ class DSAL : public DAL<Key, Data, KeyComparator>
         Key aux;
 
         // Confere se a lista está vazia
-        if (this->mi_Length < 1)
-            std::cout << "Dicionario vazio";
-        else
-            aux = this->mpt_Data[0].id; // Retorna a primeira chave, afinal a lista está ordenada
+        // if (this->mi_Length < 1)
+        //     throw std::out_of_range("Dicionario vazio");
+
+        aux = this->mpt_Data[0].id; // Retorna a primeira chave, afinal a lista está ordenada
 
         return aux;
     };

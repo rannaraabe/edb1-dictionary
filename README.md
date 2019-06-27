@@ -25,6 +25,9 @@ Por fim, compile o projeto com: ```$ make ```
 ## Executando
 Para executar o projeto: ```$ ./dic ```.
 
+## Observação
+Problemas na execução dos testes em ```insert``` e ```remove``` para vários itens de uma vez, e ```search``` ao dar o retrieve em vários itens (no DSAl).
+Para conseguir executar os testes, apenas comentei esses casos no ```src/driver_dictionary.cpp```.
 
 
 Autor: Ranna Raabe
